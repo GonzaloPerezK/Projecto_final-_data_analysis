@@ -31,7 +31,7 @@ df_california = load_data()
 
 
 #Titulos
-st.title("🏡 Análisis Interactivo de Precios de Vivienda en California")
+st.title("🏡 Análisis Interactivo de precios de vivienda en California")
 
 st.write(
     "Aplicación interactiva basada en el dataset California Housing "
@@ -70,7 +70,7 @@ age_min = int(df_california["HouseAge"].min())
 age_max = int(df_california["HouseAge"].max())
 
 age_range = st.sidebar.slider(
-    "Rango de Edad Mediana de la Casa (HouseAge)",
+    "Rango de edad Mediana de la casa (HouseAge)",
     min_value=age_min,
     max_value=age_max,
     value=(age_min, age_max),
