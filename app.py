@@ -4,24 +4,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import fetch_california_housing
 
-# -------------------------------------------------------------------
-# Configuración de la página
-# -------------------------------------------------------------------
+#Configuración de la página
+
 st.set_page_config(
     page_title="California Housing – Análisis Interactivo",
     page_icon="🏡",
     layout="wide",
 )
 
-# Estilo de Matplotlib
+#Estilo de Matplotlib
+
 plt.style.use("seaborn-v0_8")
 
 PRIMARY_COLOR = "#2274A5"
 SECONDARY_COLOR = "#F75C03"
 
-# -------------------------------------------------------------------
-# Carga del dataset
-# -------------------------------------------------------------------
+#Carga del dataset
+
 @st.cache_data
 def load_data() -> pd.DataFrame:
     data = fetch_california_housing(as_frame=True)
@@ -31,9 +30,8 @@ def load_data() -> pd.DataFrame:
 
 df_california = load_data()
 
-# -------------------------------------------------------------------
-# Encabezado
-# -------------------------------------------------------------------
+
+#Titulos
 st.title("🏡 Análisis Interactivo de Precios de Vivienda en California")
 
 st.write(
@@ -43,9 +41,8 @@ st.write(
 
 st.divider()
 
-# -------------------------------------------------------------------
-# Vista general del dataset
-# -------------------------------------------------------------------
+#Vista general del dataset
+
 st.subheader("Vista general del dataset")
 
 col_left, col_right = st.columns((2, 1))
@@ -63,15 +60,13 @@ st.dataframe(df_california.isna().sum().to_frame("n_nulos"))
 
 st.divider()
 
-# -------------------------------------------------------------------
-# Fase 2: Filtros interactivos
-# -------------------------------------------------------------------
+#Filtros interactivos
+
 st.sidebar.header("Filtros de exploración")
 st.sidebar.write(
-    "Ajustá estos filtros para enfocar el análisis en un subconjunto del dataset."
+    "Útiliza filtros para enfocar el análisis en un subconjunto del dataset."
 )
 
-# Slider de edad de la vivienda
 age_min = int(df_california["HouseAge"].min())
 age_max = int(df_california["HouseAge"].max())
 
@@ -83,7 +78,8 @@ age_range = st.sidebar.slider(
     step=1,
 )
 
-# Filtro por latitud mínima
+#Filtro por latitud mínima
+
 lat_min_global = float(df_california["Latitude"].min())
 lat_max_global = float(df_california["Latitude"].max())
 
@@ -97,7 +93,8 @@ min_latitude = st.sidebar.number_input(
     help="Se incluyen solo los grupos de bloques con Latitude mayor o igual a este valor.",
 )
 
-# Número de bins del histograma
+#Número de bins del histograma
+
 n_bins = st.sidebar.slider(
     "Número de bins del histograma",
     min_value=10,
@@ -106,16 +103,16 @@ n_bins = st.sidebar.slider(
     step=5,
 )
 
-# Aplicar filtros
+#Aplicar filtros
+
 filtered_df = df_california[
     (df_california["HouseAge"] >= age_range[0])
     & (df_california["HouseAge"] <= age_range[1])
     & (df_california["Latitude"] >= min_latitude)
 ]
 
-# -------------------------------------------------------------------
-# Indicadores globales vs filtrados
-# -------------------------------------------------------------------
+#Indicadores globales vs filtrados
+
 st.subheader("Indicadores clave de MedHouseVal")
 
 median_global = df_california["MedHouseVal"].median()
@@ -154,9 +151,9 @@ st.caption(
 
 st.divider()
 
-# -------------------------------------------------------------------
-# Datos filtrados + resumen descriptivo solicitado
-# -------------------------------------------------------------------
+
+#Datos filtrados + resumen descriptivo solicitado
+
 st.subheader("Datos filtrados")
 
 st.write(
@@ -182,9 +179,8 @@ else:
 
 st.divider()
 
-# -------------------------------------------------------------------
-# Fase 3: Visualizaciones dinámicas
-# -------------------------------------------------------------------
+#Visualizaciones dinámicas
+
 st.subheader("Distribución de MedHouseVal")
 
 if not filtered_df.empty:
@@ -205,9 +201,8 @@ else:
         "No se puede mostrar el histograma porque no hay datos con los filtros actuales."
     )
 
-# -------------------------------------------------------------------
-# Scatter plot MedInc vs MedHouseVal
-# -------------------------------------------------------------------
+#Scatter plot MedInc vs MedHouseVal
+
 st.subheader("Relación entre MedInc y MedHouseVal")
 
 if not filtered_df.empty:
@@ -229,9 +224,7 @@ else:
         "No se puede mostrar el gráfico de dispersión porque no hay datos con los filtros actuales."
     )
 
-# -------------------------------------------------------------------
 # Matriz de correlación (extra analítico)
-# -------------------------------------------------------------------
 st.subheader("Matriz de correlación (subconjunto filtrado)")
 
 variables_correlacion = [
@@ -277,9 +270,8 @@ else:
 
 st.divider()
 
-# -------------------------------------------------------------------
 # Mapa geográfico
-# -------------------------------------------------------------------
+
 st.subheader("Mapa geográfico de las viviendas filtradas")
 
 if not filtered_df.empty:
