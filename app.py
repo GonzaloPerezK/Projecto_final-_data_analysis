@@ -224,7 +224,6 @@ else:
         "No se puede mostrar el gráfico de dispersión porque no hay datos con los filtros actuales."
     )
 
-# Matriz de correlación (extra analítico)
 st.subheader("Matriz de correlación (subconjunto filtrado)")
 
 variables_correlacion = [
