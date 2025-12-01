@@ -184,3 +184,5 @@ if not filtered_df.empty:
     st.map(map_df)
 else:
     st.info("No se puede mostrar el mapa porque no hay datos con los filtros actuales.")
+
+#
