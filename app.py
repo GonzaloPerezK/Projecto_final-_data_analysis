@@ -11,7 +11,6 @@ st.set_page_config(
     page_icon="🏡",
     layout="wide",
 )
-
 #Estilo de Matplotlib
 
 plt.style.use("seaborn-v0_8")
